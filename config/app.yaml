@@ -1,0 +1,14 @@
+paths:
+  corpus_inbox: corpus/inbox
+  corpus_processed: corpus/processed
+  corpus_failed: corpus/failed
+  vector_store: data/vector_store
+  bm25_index: data/bm25
+  sqlite_db: data/app.db
+
+vector_store:
+  provider: chroma
+  collection: chunks_minilm_384
+  distance: cosine
+  search_ef: 100
+

@@ -1,0 +1,3 @@
+history_turns: 6
+session_ttl_minutes: 60 
+max_clarifications_per_turn: 1

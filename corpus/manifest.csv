@@ -1,0 +1,7 @@
+doc_id,filename,source_url,doc_type,manufacturer,equipment_model,is_synthetic,purpose,sha256,downloaded_at
+doc_haas_2023,2023_mill_operator_man_hass.pdf,https://www.haascnc.com/content/dam/haascnc/en/service/manual/operator/english_mill_interactive_manual_print_version_2023.pdf,operator_manual,Hass Automation,VF-2,false,primary corpus — procedures;PM Internals;alarms,,
+doc_haas_ngc_2022,2022_NGC_mill_operator_man_hass.pdf,,operator_manual,Hass Automation,VF-2,false,Version-conflict testing against doc_haas_2023,,
+doc_powerflex_520_um,powerflex_520_AC_drive.pdf,,user_manual,Rockwell Automation,PowerFlex 520,false,Fault-code table — atomic row chunking and BM25 exact-match,,
+doc_grundfos_cm,GRUNDFOS_cm_inop_guide.pdf,,instructions,Grundfos,CM,false,Symptom-cause-remedy table shape,,
+doc_grundfos_alpha1,GRUNDFOS_Alpha1_ inop_guide.pdf,,instructions,Grundfos,ALPHA1,false,Distractor — forces ambiguity for clarification path (FR-12),,
+doc_ai4i_2020,doc_ai4i_2020.csv,,event_log,,,true,Structured log for LOG_QUERY (FR-14). Synthetic dataset by construction,, 

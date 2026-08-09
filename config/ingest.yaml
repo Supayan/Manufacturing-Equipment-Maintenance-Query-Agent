@@ -1,0 +1,16 @@
+chunk_tokens: 256
+overlap_tokens: 75
+min_chunk_tokens: 40
+ocr_enabled: false
+ocr_dpi: 300
+atomic_table_rows: true
+embedding:
+  provider: local
+  model: all-MiniLM-L6-v2
+  dimensions: 384
+  batch_size: 64
+  normalize: true
+  query_prefix: ""
+  document_prefix: ""
+  device: cpu
+  cache_dir: data/embedding_cache

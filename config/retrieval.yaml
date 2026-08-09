@@ -1,0 +1,7 @@
+dense_k: 25 
+sparse_k: 25 
+rrf_k: 60 # smoothing constant in reciprocal Rank fusion. 1/(k+rank)
+rerank_top_n: 10
+score_threshold: 0.35 #min vector score to be generated. Do not generate anything below this.(Needs calibration)
+neighbour_expansion: 1
+
