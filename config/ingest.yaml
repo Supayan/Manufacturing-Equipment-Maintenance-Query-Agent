@@ -1,4 +1,4 @@
-chunk_tokens: 256
+chunk_tokens: 350
 overlap_tokens: 75
 min_chunk_tokens: 40
 ocr_enabled: false

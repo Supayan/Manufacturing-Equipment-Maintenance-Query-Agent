@@ -6,6 +6,8 @@ python-dotenv==1.0.1
 pytest==8.3.4
 openai==0.27.8
 ollama==0.6.2
+
+docling==2.117.0
 # LLM: add your LLM provider client here (e.g., anthropic==0.40.0)
 
 #uv pip compile requirements.txt -o requirements.lock.txt
