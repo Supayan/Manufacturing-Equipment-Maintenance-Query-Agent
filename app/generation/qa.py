@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from app.retrieval.expander import expand_hits
+
 CONTEXT_START = "<<<BEGIN_RETRIEVED_DOCUMENTS>>>"
 CONTEXT_END = "<<<END_RETRIEVED_DOCUMENTS>>>"
 
@@ -83,9 +85,11 @@ def format_citations(citations:list) -> list[str]:
     ]
 
 
-def answer_query(query:str, embedder, store, provider, k: int = 20):
+def answer_query(query:str, embedder, store, provider, k: int = 20, expand_window: int = 1):
     query_vector =  embedder.embed_query(query)
     hits = store.query(query_vector, k=k)
+    if expand_window > 0:
+        hits = expand_hits(hits, store, window=expand_window)
     citations = build_citations(hits)
     user_prompt = build_user_prompt(query, hits)
     response = provider.complete(SYSTEM_PROMPT, user_prompt)

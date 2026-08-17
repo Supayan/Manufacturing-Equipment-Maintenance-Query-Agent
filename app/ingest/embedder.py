@@ -22,6 +22,7 @@ class MiniLMEmbedder:
         self.normalize_embedding = settings.ingest.embedding.normalize
         self.query_prefix = settings.ingest.embedding.query_prefix
         self.document_prefix = settings.ingest.embedding.document_prefix
+        # self._dim = settings.ingest.embeddings.dimensions
         # self.max_tokens = settings.generations.max_tokens
 
         self._model = SentenceTransformer(
@@ -30,7 +31,11 @@ class MiniLMEmbedder:
             cache_folder=self.cache_dir,
         )
         # self._model_id = self.model_name
-        self._dim = self._model.get_sentence_embedding_dimension()
+        dim = self._model.get_sentence_embedding_dimension()
+        if dim is None:
+            raise ValueError(f"Could not determine embedding, Setting dim from config")
+        self._dim = dim
+        
 
     @property
     def dim(self) -> int:

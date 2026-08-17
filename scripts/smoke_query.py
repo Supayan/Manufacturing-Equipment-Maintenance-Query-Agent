@@ -4,15 +4,17 @@ from app.config import settings
 from app.generation.providers import OllamaProvider
 from app.generation.qa import answer_query, build_user_prompt, format_citations
 from app.ingest.embedder import MiniLMEmbedder
+from app.retrieval.expander import expand_hits
 from app.storage.vector_store import ChromaVectorStore
 
 import time
 
 
 def main():
-    QUERY = "What is the machine power-on procedure?"
+    QUERY = "What is the machine power-on procedure for the first time?"
     k = settings.retrieval.rerank_top_n
-    SHOW_CONTEXT = False
+    window = settings.retrieval.neighbour_expansion
+    SHOW_CONTEXT = True
     
     embedder = MiniLMEmbedder(settings)
     data_store = ChromaVectorStore(settings)
@@ -27,11 +29,14 @@ def main():
     if SHOW_CONTEXT:
         query_vector = embedder.embed_query(QUERY)
         hits= data_store.query(query_vector, k=k)
+        hits = expand_hits(hits, data_store, window=window)
         print(build_user_prompt(QUERY, hits))
-        return
-    
+
+
     start = time.perf_counter()
-    response, citations = answer_query(QUERY, embedder, data_store, provider, k=k)
+    response, citations = answer_query(
+        QUERY, embedder, data_store, provider, k=k, expand_window=window
+    )
     latency_ms = round((time.perf_counter()- start)*1000)
     print(f"Query: {QUERY}\n")
     print(f"{response.text}\n")

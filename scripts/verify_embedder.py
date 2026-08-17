@@ -3,16 +3,16 @@ from app.config import settings
 import numpy as np
 
 embedder = MiniLMEmbedder(settings)
-""" 
+
 print(embedder.dim)
 
-max_seq_len = embedder._model.max_seq_length
-print(max_seq_len)
-vec=embedder.embed_query("test")
-print(len(vec))
-print(vec)
-norm = np.linalg.norm(vec)
-print(norm) """
+# max_seq_len = embedder._model.max_seq_length
+# print(max_seq_len)
+# vec=embedder.embed_query("test")
+# print(len(vec))
+# print(vec)
+# norm = np.linalg.norm(vec)
+# print(norm)
 
 def cosine(a, b):
     a, b = np.array(a), np.array(b)

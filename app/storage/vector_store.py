@@ -11,9 +11,15 @@ class Hit:
     score: float
 
 
+def chunk_uid(doc_id: str, chunk_index: int) -> str:
+    """Canonical vector-store id for a chunk; shared by ingest and retrieval."""
+    return f"{doc_id}_{chunk_index:04d}"
+
+
 class VectorStoreProvider(Protocol):
     def upsert(self, ids, embeddings, documents, metadatas): ...
     def query(self, embedding, k, filters=None) -> list[Hit]: ...
+    def get(self, ids) -> list[Hit]: ...
     def count(self) -> int: ...
     def reset(self): ...
 
@@ -59,6 +65,17 @@ class ChromaVectorStore:
     def reset(self):
         self.client.delete_collection(self.collection_name)
         self.collections = self._get_or_create_collection()
+
+    def get(self, ids) -> list[Hit]:
+        """Fetch chunks by id (missing ids are silently skipped). score is 0.0
+        because these are direct lookups, not similarity matches."""
+        result = self.collections.get(ids=ids)
+        return [
+            Hit(chunk_id=chunk_id, text=text, metadata=metadata, score=0.0)
+            for chunk_id, text, metadata in zip(
+                result["ids"], result["documents"], result["metadatas"]
+            )
+        ]
 
     def query(self, embedding, k, filters=None) -> list[Hit]:
         result = self.collections.query(

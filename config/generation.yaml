@@ -2,7 +2,7 @@ provider: ollama
 model: qwen2.5:7b-instruct
 temperature: 0.1
 max_token: 700
-max_context_tokens: 6000 #Cap on the input; source plus prompt(different from max_token)
+max_context_tokens: 6000 #Cap on the input; source plus prompt(different from max_token)Ollama has its own limit with each model.
 
 # 7B measured at 17.6s vs NFR-01 p95 <= 5s. 3B: 2.0-7.3s.
 # 7B grounds better; swap is one config line (NFR-06). See DR #6.
