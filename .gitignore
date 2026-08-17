@@ -4,3 +4,8 @@ __pycache__/
 .env
 *.egg-info/
 .pytest_cache/
+.vscode/
+data/embedding_cache/
+data/vector_store/
+data/vector_store
+/data/vector_store/chroma.sqlite3

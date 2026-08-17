@@ -1,11 +1,12 @@
 import argparse
 
 from app.config import settings
-from app.ingest.chunker import chunk_pdf
+from app.ingest.docling_chunker import chunk_pdf
 from app.ingest.embedder import MiniLMEmbedder
-from app.storage.vector_store import ChromaVectorStore
+from app.storage.vector_store import ChromaVectorStore, chunk_uid
 
 import csv
+import json
 
 MANIFEST_PATH = settings.app.paths.corpus_inbox.parent / "manifest.csv"
 
@@ -46,13 +47,13 @@ def main():
         )
 
     doc_title = pdf_path.stem
+    max_tokens = embedder.max_tokens
     chunks = chunk_pdf(
         str(pdf_path),
         DOC_ID,
         doc_title,
         embedder.tokenizer,
-        settings.ingest.chunk_tokens,
-        settings.ingest.overlap_tokens,
+        max_tokens,
         settings.ingest.min_chunk_tokens,
     )
 
@@ -60,7 +61,7 @@ def main():
         print(f"No chunks produced for {DOC_ID} ({pdf_path.name}) — nothing to upsert.")
         return
 
-    ids = [f"{DOC_ID}_{chunk.chunk_index: 04d}" for chunk in chunks]
+    ids = [chunk_uid(DOC_ID, chunk.chunk_index) for chunk in chunks]
 
     texts = [chunk.text for chunk in chunks]
 
@@ -73,6 +74,9 @@ def main():
             "page_start": chunk.page_start,
             "page_end": chunk.page_end,
             "chunk_index": chunk.chunk_index,
+            "heading": chunk.heading,
+            "category": chunk.category,
+            "prov": json.dumps(chunk.prov),
         }
         for chunk in chunks
     ]

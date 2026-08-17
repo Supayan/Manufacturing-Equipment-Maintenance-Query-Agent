@@ -8,7 +8,7 @@ import ollama
 @dataclass
 class LLMResponse:
     text:str
-    latency_ms:int
+    latency_ms:float
     model:str
 
 class LLMProvider(Protocol):
